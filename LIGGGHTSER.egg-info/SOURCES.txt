@@ -1,0 +1,7 @@
+setup.py
+LIGGGHTSER.egg-info/PKG-INFO
+LIGGGHTSER.egg-info/SOURCES.txt
+LIGGGHTSER.egg-info/dependency_links.txt
+LIGGGHTSER.egg-info/top_level.txt
+src/__init__.py
+src/main.py
