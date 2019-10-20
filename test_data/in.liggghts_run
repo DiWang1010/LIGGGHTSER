@@ -1,0 +1,164 @@
+log             ../DEM/log.liggghts
+# Input script of simulation of saturated fault gouge
+# CFD-DEM opensource code
+# Created by: Omid Dorostkar
+#             ETH Zürich & Laboratory for Building Science and Technology
+#             Swiss Federal Laboratories for Materials Science and
+#             Technology (EMPA), ETH Domain
+#             Dübendorf (Zürich), Switzerland
+# Last modified on: October 27th 2015
+# Last modified by: Omid Dorostkar
+
+atom_style	granular
+boundary	p f f
+newton		off
+units		cgs
+#processors      8 2 1
+atom_modify     map array
+communicate	single vel yes
+
+neighbor	0.0015 bin
+neigh_modify	delay 0
+
+read_data	../DEM/datafile6
+##############################################################################################################################################################
+#Material properties required for new pair styles
+
+fix 		m1 all property/global youngsModulus peratomtype 6.5e11 6.5e11 6.5e11 
+fix 		m2 all property/global poissonsRatio peratomtype 0.25 0.25 0.25
+fix 		m3 all property/global coefficientRestitution peratomtypepair 3 0.87 0.87 0.87&
+                                                                                0.87 0.87 0.87&
+										0.87 0.87 0.87 
+                                                                                
+fix 		m4 all property/global coefficientFriction peratomtypepair 3 0.4 0.9 0.0&
+                                                                             0.9 0.0 0.0& 
+									     0.0 0.0 0.0
+
+
+##############################################################################################################################################################
+#New pair style
+pair_style 	gran model hertz tangential history 
+pair_coeff	* *
+##############################################################################################################################################################
+fix 		ts_check all check/timestep/gran 100000 0.2 0.2 
+timestep	0.000000030
+##############################################################################################################################################################
+fix              zwalls1 all wall/gran model hertz tangential history primitive type 3 zplane 0
+fix              zwalls2 all wall/gran model hertz tangential history primitive type 3 zplane 0.08
+fix              ywalls1 all wall/gran model hertz tangential history primitive type 3 yplane 0.1575
+
+
+fix             cadb all mesh/surface/stress file ../DEM/tt3.stl type 2 scale 1 rotate axis 1. 0. 0. angle 90  
+fix             cad2 all mesh/surface file ../DEM/pn6.stl type 2 scale 1 
+fix              cadt all mesh/surface/stress/servo file ../DEM/bb3.stl type 2 scale 1 rotate axis 1. 0. 0. angle 90 move 0 0.1475 0 com 0.55 0.1475 0.04 vel_max 200 ctrlPV force axis 0. -1. 0. target_val 8.8e+06
+
+fix             meshwalls all wall/gran model hertz tangential history mesh n_meshes 3 meshes cadb cad2 cadt
+##############################################################################################################################################################
+compute		1 all erotate/sphere
+compute 	2 all ke
+compute 	3 all contact/atom 
+#compute 	4 all coord/gran 
+compute 	5 all displace/atom
+compute 	6 all erotate/sphere/atom  
+compute 	7 all ke/atom 
+
+compute 	chain all pair/gran/local id pos vel force torque history contactArea 
+#delta force_normal force_tangential slide
+compute 	chainw all wall/gran/local id pos vel force torque history contactArea 
+#delta force_normal force_tangential slide 
+##############################################################################################################################################################
+
+fix		11 all nve/sphere
+run             1000
+thermo_style	custom step atoms ke vol
+thermo		1000
+thermo_modify	lost warn norm no
+compute_modify	thermo_temp dynamic yes
+##############################################################################################################################################################
+#variable        rad atom 1000/vol
+dump		dmpxyz all custom 25000 ../DEM/postxyz/dumpr_*.tet id type x y z radius vx vy vz fx fy fz omegax omegay omegaz c_3 c_5[1] c_5[2] c_5[3] c_5[4] c_6 c_7
+dump 		chain all local 25000 ../DEM/postchain/dump_*.chain c_chain[1] c_chain[2] c_chain[3] c_chain[4] c_chain[5] c_chain[6] c_chain[7] c_chain[8] c_chain[9] c_chain[10] & 
+				c_chain[11] c_chain[12] c_chain[13] c_chain[14] c_chain[15] c_chain[16] c_chain[17] 
+#c_chain[18] c_chain[19] c_chain[20]  & 
+					c_chain[21] c_chain[22] c_chain[23] c_chain[24] c_chain[25] c_chain[26] c_chain[27] c_chain[28] c_chain[29] c_chain[30] c_chain[31] c_chain[32] c_chain[33]
+
+dump 		chainw all local 25000 ../DEM/postchainw/dump_*.chain c_chainw[1] c_chainw[2] c_chainw[3] c_chainw[4] c_chainw[5] c_chainw[6] c_chainw[7] c_chainw[8] c_chainw[9] c_chainw[10] & 
+				c_chainw[11] c_chainw[12] c_chainw[13] c_chainw[14] c_chainw[15] c_chainw[16] c_chainw[17] 
+#c_chainw[18] c_chainw[19] c_chainw[20]  & 
+					c_chainw[21] c_chainw[22] c_chainw[23] c_chainw[24] c_chainw[25] c_chainw[26] c_chainw[27] c_chainw[28] c_chainw[29] c_chainw[30] c_chainw[31] c_chainw[32] c_chainw[33]
+##############################################################################################################################################################
+##############################################################################################################################################################
+run             120000 upto
+##############################################################################################################################################################
+variable         xForce equal f_cadt[1]
+variable         yForce equal f_cadt[2]
+variable         zForce equal f_cadt[3]
+variable         yPos equal f_cadt[8]
+
+variable         xForb equal f_cadb[1]
+variable         yForb equal f_cadb[2]
+variable         zForb equal f_cadb[3]
+
+#############################################################################################################
+fix 		avet all ave/time 1 5000 5000 v_xForce v_yForce v_yPos file ../DEM/ave_force_top.txt
+fix 		aveb all ave/time 1 5000 5000 v_xForb v_yForb file ../DEM/ave_force_bot.txt
+fix 		aveb all ave/time 1 5000 5000 c_1 c_2 file ../DEM/KE.txt
+fix 		frocet all print 5000 "${xForce} ${yForce} ${yPos}" file ../DEM/every_top_force.txt screen no
+fix 		forceb all print 5000 "${xForb} ${yForb}" file ../DEM/ev_bott_force.txt screen no
+#############################################################################################################
+
+variable Nevery equal 500
+variable Ekin equal c_1
+variable mynbdt equal step
+
+group center1 id 3095 
+group center2 id 2510
+group center3 id 4152
+#group top1    id 3948
+#group bottom1 id 3130
+
+variable vxC1 equal vcm(center1,x)
+variable vyC1 equal vcm(center1,y)
+variable vzC1 equal vcm(center1,z)
+
+variable vxC2 equal vcm(center2,x)
+variable vyC2 equal vcm(center2,y)
+variable vzC2 equal vcm(center2,z)
+
+variable vxC3 equal vcm(center3,x)
+variable vyC3 equal vcm(center3,y)
+variable vzC3 equal vcm(center3,z)
+
+fix printer center1 print ${Nevery} "${mynbdt} ${vxC1} ${vyC1} ${vzC1}" append dataC1.txt screen no title none
+fix printer2 center2 print ${Nevery} "${mynbdt} ${vxC2} ${vyC2} ${vzC2}" append dataC2.txt screen no title none
+fix printer3 center3 print ${Nevery} "${mynbdt} ${vxC3} ${vyC3} ${vzC3}" append dataC3.txt screen no title none
+#fix printer4 top1 print ${Nevery} "${mynbdt}  $vx $vy $vz" append dataT1.txt screen no title none
+#fix printer5 bottom1 print ${Nevery} "${mynbdt}  $vx $vy $vz" append dataB1.txt screen no title none
+
+thermo_style    custom step atoms c_1 c_2 v_yPos  
+run             1000000 upto
+
+set             group all density 2.9
+timestep        0.000000015
+run             1000000
+
+
+
+fix             move all move/mesh mesh cadb linear .6 0. 0. 
+run             22000000
+
+fix             move all move/mesh mesh cadb linear .06 0. 0.  
+run             850000000
+
+
+
+
+
+
+
+
+
+
+
+
+
