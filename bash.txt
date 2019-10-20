@@ -1,0 +1,9 @@
+import LIGGGHTSER
+p=LIGGGHTSER.read.Read('wd','1.0')
+file=p.read_file("./test_data")
+ave = p.read_ave(file['ave'][0])
+
+import LIGGGHTSER
+p=LIGGGHTSER.read.Read('wd','1.0')
+file=p.read_file("./test_data")
+print = p.read_print(file['print'][0],0)
