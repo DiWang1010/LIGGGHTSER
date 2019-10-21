@@ -184,5 +184,50 @@ class Read:
 						print('error: illegal print file, data end with words')
 						break
 				return snap
+			m=title
+			line = printfile.readline()
+			snap = dict()
+			snap['DATA'] = list()
+			for line in printfile:
+				try:
+					snap['DATA'].append([float(i) for i in line.split()])
+				except:
+					print('error: illegal print file, data end with words')
+					break
+			for i in range(len(snap['DATA'])):
+				for items in range(len(m)):
+					snap[m[items]].append(snap['DATA'][i][items])
+			return snap
 
-
+	def read_in_output(self,fname):
+		with open(fname,'r',encoding="gbk") as in_output:
+			filedict= dict()
+			filedict['ave']=list()
+			filedict['print']=list()
+			filedict['ave_title']=list()
+			filedict['print_title']=list()
+			print('reading in file')
+			for line in in_output:
+				line.encode(encoding='utf-8',errors='ignore')
+				if line.startswith('#'):
+					continue
+				if line.startswith('fix'):
+					temparg=line.split()[3:]
+					if temparg[0] == 'ave/time':
+						print('Detected print:',line)
+						for i in range(len(temparg)):
+							if temparg[i]=='file':
+								filedict['ave'].append(temparg[i+1])
+								endvalue=i
+						filedict['ave_title'].append(temparg[4:endvalue])
+					if temparg[0] == 'print':
+						print('Detected print:',line)
+						for i in range(len(temparg)):
+							if temparg[i]=='file':
+								filedict['print'].append(temparg[i+1])
+								endvalue=i
+						print(temparg)
+						temparg[2]=temparg[2][1:]
+						temparg[endvalue]=temparg[endvalue][:-1]
+						filedict['print_title'].append(temparg[2:endvalue])
+			return filedict
