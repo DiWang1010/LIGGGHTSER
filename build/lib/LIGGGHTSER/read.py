@@ -47,102 +47,187 @@ class Read:
 					filedict['ave'].append(name)
 					continue
 				filedict['others'].append(name)
+		print('Find dump file',len(filedict['dump']))
+		print('Find contact file',len(filedict['contact']))
+		print('Find log file',len(filedict['log']))
+		print('Find print file',len(filedict['print']))
+		print('Find ave file',len(filedict['ave']))
+		print('Find others file',len(filedict['others']))
 		return filedict
 
 	def read_dump(self, fname):
-	    mode = str()
-	    dump = open(fname)
-	    line = dump.readline()
-	    while line.startswith('ITEM') :
-	        snap = dict()
-	        if line.startswith('ITEM: TIMESTEP'):
-	            line = dump.readline()
-	            snap['TIMESTEP'] = int(line.split()[0])
-	            line = dump.readline()
-	        if line.startswith('ITEM: NUMBER OF ATOM'):
-	            line = dump.readline()
-	            snap['NUMBER_OF_ATOM'] = int(line.split()[0])
-	            line = dump.readline()
-	        if line.startswith('ITEM: BOX'):
-	            snap['BOUNDARY_CONDITIONN'] = line.split()[-3:]
-	            line = dump.readline()
-	            snap['BOUNDARY_X'] = [float(i)
-	                                  for i in line.split()]
-	            line = dump.readline()
-	            snap['BOUNDARY_Y'] = [float(i)
-	                                  for i in line.split()]
-	            line = dump.readline()
-	            snap['BOUNDARY_Z'] = [float(i)
-	                                  for i in line.split()]
-	            line = dump.readline()
+		dump = open(fname)
+		line = dump.readline()
+		while line.startswith('ITEM') :
+			snap = dict()
+			if line.startswith('ITEM: TIMESTEP'):
+				line = dump.readline()
+				snap['TIMESTEP'] = int(line.split()[0])
+				line = dump.readline()
+			if line.startswith('ITEM: NUMBER OF ATOM'):
+				line = dump.readline()
+				snap['NUMBER_OF_ATOM'] = int(line.split()[0])
+				line = dump.readline()
+			if line.startswith('ITEM: BOX'):
+				snap['BOUNDARY_CONDITIONN'] = line.split()[-3:]
+				line = dump.readline()
+				snap['BOUNDARY_X'] = [float(i)
+									  for i in line.split()]
+				line = dump.readline()
+				snap['BOUNDARY_Y'] = [float(i)
+									  for i in line.split()]
+				line = dump.readline()
+				snap['BOUNDARY_Z'] = [float(i)
+									  for i in line.split()]
+				line = dump.readline()
 
-	        if line.startswith('ITEM: ATOMS'):
-	            snap['HEADER'] = line.split()[2:]
-	            m=snap['HEADER']
-	            print(m)
-	            
-	        snap['DATA'] = list()
-	        for items in range(len(m)):
-	            snap[m[items]] = list()
+			if line.startswith('ITEM: ATOMS'):
+				snap['HEADER'] = line.split()[2:]
+				m=snap['HEADER']
+				print(m)
+				
+			snap['DATA'] = list()
+			for items in range(len(m)):
+				snap[m[items]] = list()
 
-	        for line in dump:
-	            try:
-	                snap['DATA'].append([float(i) for i in line.split()])
-	            except:
-	                print('error: illegal dump file, data end with words')
-	                break
+			for line in dump:
+				try:
+					snap['DATA'].append([float(i) for i in line.split()])
+				except:
+					print('error: illegal dump file, data end with words')
+					break
 
-	        for i in range(len(snap['DATA'])):
-	                    for items in range(len(m)):
-	                        snap[m[items]].append(snap['DATA'][i][items])
-	    return snap
+			for i in range(len(snap['DATA'])):
+						for items in range(len(m)):
+							snap[m[items]].append(snap['DATA'][i][items])
+		return snap
 
 	def read_contact(self, fname):
-	    mode = str()
-	    dump = open(fname)
-	    line = dump.readline()
+		dump = open(fname)
+		line = dump.readline()
 
-	    while line.startswith('ITEM') :
-	        snap = dict()
-	        if line.startswith('ITEM: TIMESTEP'):
-	            line = dump.readline()
-	            snap['TIMESTEP'] = int(line.split()[0])
-	            line = dump.readline()
-	        if line.startswith('ITEM: NUMBER OF ENTRIES'):
-	            line = dump.readline()
-	            snap['ITEM: NUMBER OF ENTRIES'] = int(line.split()[0])
-	            line = dump.readline()
-	        if line.startswith('ITEM: BOX BOUNDS'):
-	            snap['BOUNDARY_CONDITIONN'] = line.split()[-3:]
-	            line = dump.readline()
-	            snap['BOUNDARY_X'] = [float(i)
-	                                  for i in line.split()]
-	            line = dump.readline()
-	            snap['BOUNDARY_Y'] = [float(i)
-	                                  for i in line.split()]
-	            line = dump.readline()
-	            snap['BOUNDARY_Z'] = [float(i)
-	                                  for i in line.split()]
-	            line = dump.readline()
+		while line.startswith('ITEM') :
+			snap = dict()
+			if line.startswith('ITEM: TIMESTEP'):
+				line = dump.readline()
+				snap['TIMESTEP'] = int(line.split()[0])
+				line = dump.readline()
+			if line.startswith('ITEM: NUMBER OF ENTRIES'):
+				line = dump.readline()
+				snap['ITEM: NUMBER OF ENTRIES'] = int(line.split()[0])
+				line = dump.readline()
+			if line.startswith('ITEM: BOX BOUNDS'):
+				snap['BOUNDARY_CONDITIONN'] = line.split()[-3:]
+				line = dump.readline()
+				snap['BOUNDARY_X'] = [float(i)
+									  for i in line.split()]
+				line = dump.readline()
+				snap['BOUNDARY_Y'] = [float(i)
+									  for i in line.split()]
+				line = dump.readline()
+				snap['BOUNDARY_Z'] = [float(i)
+									  for i in line.split()]
+				line = dump.readline()
 
-	        if line.startswith('ITEM: ENTRIES'):
-	            snap['HEADER'] = line.split()[2:]
-	            m=snap['HEADER']
-	            print(m)
-	            
-	        snap['DATA'] = list()
-	        for items in range(len(m)):
-	            snap[m[items]] = list()
+			if line.startswith('ITEM: ENTRIES'):
+				snap['HEADER'] = line.split()[2:]
+				m=snap['HEADER']
+				print(m)
+				
+			snap['DATA'] = list()
+			for items in range(len(m)):
+				snap[m[items]] = list()
 
-	        for line in dump:
-	            try:
-	                snap['DATA'].append([float(i) for i in line.split()])
-	            except:
-	                print('error: illegal contact file, data end with words')
+			for line in dump:
+				try:
+					snap['DATA'].append([float(i) for i in line.split()])
+				except:
+					print('error: illegal contact file, data end with words')
 
-	        for i in range(len(snap['DATA'])):
-	                    for items in range(len(m)):
-	                        snap[m[items]].append(snap['DATA'][i][items])
-	    return snap
+			for i in range(len(snap['DATA'])):
+						for items in range(len(m)):
+							snap[m[items]].append(snap['DATA'][i][items])
+		return snap
+	def read_ave(self,fname):
+		with open(fname,'r') as ave:
+			line = ave.readline()
+			snap = dict()
+			if line.startswith('#'):
+				line = ave.readline()
+				snap['HEADER'] = line.split()[1:]
+				m=snap['HEADER']
+				print(m)
+			snap['DATA'] = list()
+			for items in range(len(m)):
+				snap[m[items]] = list()
+			for line in ave:
+				try:
+					snap['DATA'].append([float(i) for i in line.split()])
+				except:
+					print('error: illegal ave file, data end with words')
+					break
+				
+			for i in range(len(snap['DATA'])):
+				for items in range(len(m)):
+					snap[m[items]].append(snap['DATA'][i][items])
+		return snap
+	def read_print(self,fname,title):
+		with open(fname,'r') as printfile:
+			if title==0:
+				line = printfile.readline()
+				snap = dict()
+				snap['DATA'] = list()
+				for line in printfile:
+					try:
+						snap['DATA'].append([float(i) for i in line.split()])
+					except:
+						print('error: illegal print file, data end with words')
+						break
+				return snap
+			m=title
+			line = printfile.readline()
+			snap = dict()
+			snap['DATA'] = list()
+			for line in printfile:
+				try:
+					snap['DATA'].append([float(i) for i in line.split()])
+				except:
+					print('error: illegal print file, data end with words')
+					break
+			for i in range(len(snap['DATA'])):
+				for items in range(len(m)):
+					snap[m[items]].append(snap['DATA'][i][items])
+			return snap
 
-
+	def read_in_output(self,fname):
+		with open(fname,'r',encoding="gbk") as in_output:
+			filedict= dict()
+			filedict['ave']=list()
+			filedict['print']=list()
+			filedict['ave_title']=list()
+			filedict['print_title']=list()
+			print('reading in file')
+			for line in in_output:
+				line.encode(encoding='utf-8',errors='ignore')
+				if line.startswith('#'):
+					continue
+				if line.startswith('fix'):
+					temparg=line.split()[3:]
+					if temparg[0] == 'ave/time':
+						print('Detected print:',line)
+						for i in range(len(temparg)):
+							if temparg[i]=='file':
+								filedict['ave'].append(temparg[i+1])
+								endvalue=i
+						filedict['ave_title'].append(temparg[4:endvalue])
+					if temparg[0] == 'print':
+						print('Detected print:',line)
+						for i in range(len(temparg)):
+							if temparg[i]=='file':
+								filedict['print'].append(temparg[i+1])
+								endvalue=i
+						print(temparg)
+						temparg[2]=temparg[2][1:]
+						temparg[endvalue]=temparg[endvalue][:-1]
+						filedict['print_title'].append(temparg[2:endvalue])
+			return filedict
