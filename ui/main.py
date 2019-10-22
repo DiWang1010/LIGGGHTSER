@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 import time
+import os
 # from PyQt5 import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QInputDialog,QMainWindow, QPushButton, QApplication, QTextEdit
@@ -46,12 +47,12 @@ class Ui_MainWindow(object):
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(370, 20, 391, 341))
         self.tabWidget.setObjectName("tabWidget")
-        self.tab = QtWidgets.QWidget()
-        self.tab.setObjectName("tab")
-        self.tabWidget.addTab(self.tab, "")
-        self.tab_2 = QtWidgets.QWidget()
-        self.tab_2.setObjectName("tab_2")
-        self.tabWidget.addTab(self.tab_2, "")
+        # self.tab = QtWidgets.QWidget()
+        # self.tab.setObjectName("tab")
+        # self.tabWidget.addTab(self.tab, "")
+        # self.tab_2 = QtWidgets.QWidget()
+        # self.tab_2.setObjectName("tab_2")
+        # self.tabWidget.addTab(self.tab_2, "")
         ##########writle pushButton
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(90, 90, 211, 41))
@@ -76,46 +77,58 @@ class Ui_MainWindow(object):
 ####################################################################################################
         self.change_wd = QtWidgets.QPushButton(self.centralwidget)
         self.change_wd.setGeometry(QtCore.QRect(90, 30, 211, 41))
-        self.change_wd.setObjectName("pushButton")
-        self.pushButton.clicked.connect(lambda:self.change_workdir(MainWindow))
+        self.change_wd.setObjectName("change_wd")
+        self.change_wd.clicked.connect(lambda:self.change_workdir(MainWindow))
+####################################################################################################
+        self.clear = QtWidgets.QPushButton(self.centralwidget)
+        self.clear.setGeometry(QtCore.QRect(90, 160, 211, 41))
+        self.clear.setObjectName("clear")
+        self.clear.clicked.connect(lambda:self.clear_tab(MainWindow))
 ####################################################################################################
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         sys.stdout = Stream(newText=self.onUpdateText)
 
-        
-        
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
+        # self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
+        # self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
         self.pushButton.setText(_translate("MainWindow", "Read File"))
         self.change_wd.setText(_translate("MainWindow", "Change work directory"))
+        self.clear.setText(_translate("MainWindow", "Clear"))
 
     def read_file(self,Marinwindow,lgs):
-        text, ok = QInputDialog.getText(Marinwindow,'Input Directory','Please Enter your Directory:')
-        if ok:
-            print('Reading files from',text)
-            try:
-                lgs.read_file(text)
-            except:
-                print('error:cannot read file')
+        try:
+            filedict=lgs.read_file('./')
+        except:
+            print('cannot read file')
+        title=list()
+        for i in filedict:
+            title.append(str(i))
+        self.tablist = [QtWidgets.QWidget() for i in range(len(filedict))]
+        for i in range(len(filedict)):
+            self.tablist[i].setObjectName(title[i])
+            self.tabWidget.addTab(self.tablist[i], "")
+            self.tabWidget.setTabText(self.tabWidget.indexOf(self.tablist[i]), title[i])
 
-    def change_workdir(self,Marinwindow,dirs):
+    def change_workdir(self,Marinwindow):
         text, ok = QInputDialog.getText(Marinwindow,'Input Directory','Please Enter working Directory:')
         if ok:
-            print('Reading files from',text)
+            print('Changing working directory to',text)
             try:
-                lgs.read_file(text)
+                os.chdir(text)
             except:
-                print('error:cannot read file')
+                print('error:cannot change to this directory')
 
-    def test(self,text):
-        print(text)
+    def clear_tab(self,Marinwindow):
+        try:
+            for i in self.tablist:
+                self.tabWidget.removeTab(self.tablist[i],"")#how to close a tab
+        except:
+            print('Delete table fail')
 
 if __name__ == "__main__":
     import sys
