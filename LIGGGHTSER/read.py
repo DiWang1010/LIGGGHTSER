@@ -206,6 +206,7 @@ class Read:
 			filedict['print']=list()
 			filedict['ave_title']=list()
 			filedict['print_title']=list()
+			filedict['thermo_title']=list()
 			print('reading in file')
 			for line in in_output:
 				line.encode(encoding='utf-8',errors='ignore')
@@ -230,4 +231,58 @@ class Read:
 						temparg[2]=temparg[2][1:]
 						temparg[endvalue]=temparg[endvalue][:-1]
 						filedict['print_title'].append(temparg[2:endvalue])
+				if line.startswith('thermo_style'):
+					print('Detected print:',line)
+					temparg=line.split()[1:]
+					if temparg[0] == 'one' or temparg[0] == 'multi':
+						filedict['thermo_title']=['step','atoms','ke','cpu']
+					elif temparg[0] == 'custom':
+						filedict['thermo_title'].append(temparg[1:])
+					else:
+						print('error: illegal thermo_style')
+
 			return filedict
+	def read_log_thermo(self,fname):
+		with open(fname,'r',encoding="gbk") as lglog:
+			index=0
+			read_data_flag=0
+			thermo=dict()
+			thermo_title='thermo_title'+str(index)
+			print(thermo_title)
+			thermo[thermo_title]=list()
+			thermo[thermo_title].append('#')
+			for line in lglog:
+				line.encode(encoding='utf-8',errors='ignore')
+				if read_data_flag == 1:
+					try:
+						thermo[data].append([float(i) for i in line.split()])
+					except:
+						if line.startswith('Loop time'):
+							read_data_flag=0
+							continue
+						print('error: illegal thermo_data')
+				if line.startswith('#'):
+					continue
+				if line.startswith('thermo_style'):
+					index=index+1;
+					thermo_title='thermo_title'+str(index)
+					thermo[thermo_title]=list()
+					print('Detected thermo:',line)
+					temparg=line.split()[1:]
+					if temparg[0] == 'one' or temparg[0] == 'multi':
+						thermo[thermo_title]=['step','atoms','ke','cpu']
+					elif temparg[0] == 'custom':
+						thermo[thermo_title].append(temparg[1:])
+					else:
+						print('error: illegal thermo_style')
+				if line.startswith(str.title(thermo[thermo_title][0][0])):
+					read_data_flag=1
+					data='data'+str(index)
+					thermo[data]=list()
+				
+			return thermo
+
+	def data2dict(self,data,title):
+		data_dict=dict()
+		for i in data:
+			print(i)
