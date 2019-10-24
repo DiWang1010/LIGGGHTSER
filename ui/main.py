@@ -10,8 +10,9 @@ import time
 import os
 # from PyQt5 import *
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QInputDialog,QMainWindow, QPushButton, QApplication, QTextEdit
-from PyQt5.QtCore import QObject, pyqtSignal, QEventLoop, QTimer
+# from PyQt5.QtWidgets import QInputDialog,QMainWindow, QPushButton, QApplication, QTextEdit,QFormLayout
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import QObject, pyqtSignal, QEventLoop, QTimer, Qt
 from PyQt5.QtGui import QTextCursor
 import LIGGGHTSER
 
@@ -40,19 +41,11 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         lgs=LIGGGHTSER.read.Read('wd','0.1.0')
+        ##########writle mainwindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(370, 20, 391, 341))
-        self.tabWidget.setObjectName("tabWidget")
-        # self.tab = QtWidgets.QWidget()
-        # self.tab.setObjectName("tab")
-        # self.tabWidget.addTab(self.tab, "")
-        # self.tab_2 = QtWidgets.QWidget()
-        # self.tab_2.setObjectName("tab_2")
-        # self.tabWidget.addTab(self.tab_2, "")
         ##########writle pushButton
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(90, 90, 211, 41))
@@ -83,7 +76,7 @@ class Ui_MainWindow(object):
         self.clear = QtWidgets.QPushButton(self.centralwidget)
         self.clear.setGeometry(QtCore.QRect(90, 160, 211, 41))
         self.clear.setObjectName("clear")
-        self.clear.clicked.connect(lambda:self.clear_tab(MainWindow))
+        self.clear.clicked.connect(self.clear_tab)
 ####################################################################################################
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -104,31 +97,65 @@ class Ui_MainWindow(object):
         try:
             filedict=lgs.read_file('./')
         except:
-            print('cannot read file')
+            print('cannot read directory'+os.getcwd())
+            return
         title=list()
         for i in filedict:
             title.append(str(i))
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setGeometry(QtCore.QRect(370, 20, 391, 341))
+        self.tabWidget.setObjectName("tabWidget")
+        # self.tabWidget.setTabsClosable(True);
+        # self.tabWidget.tabCloseRequested.connect(self.close_handler)
         self.tablist = [QtWidgets.QWidget() for i in range(len(filedict))]
+        
         for i in range(len(filedict)):
             self.tablist[i].setObjectName(title[i])
-            self.tabWidget.addTab(self.tablist[i], "")
-            self.tabWidget.setTabText(self.tabWidget.indexOf(self.tablist[i]), title[i])
+            self.tabWidget.addTab(self.tablist[i], title[i])
+            self.show_items(filedict,title[i],i)
+        self.tabWidget.show()
+
+    def show_items(self,filedict,title,number):
+        layout = QGridLayout()
+        if len(filedict[title])<9:
+            heretable=QTableWidget(9,2)
+        else:
+            heretable=QTableWidget(len(filedict[title]),2)
+        heretable.setHorizontalHeaderLabels(['FileName','size/KB'])
+        heretable.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        heretable.setColumnWidth(0,220)
+        heretable.setColumnWidth(1,132)
+        for i in range(len(filedict[title])):
+            newitem = QTableWidgetItem(filedict[title][i])
+            heretable.setItem(i,0,newitem)
+            fsize = os.path.getsize(filedict[title][i])
+            newitem2 = QTableWidgetItem(str(round(fsize/1024,4)))
+            heretable.setItem(i,1,newitem2)
+            newitem2.setTextAlignment(Qt.AlignRight)
+        layout.addWidget(heretable,0,0)
+
+        self.tablist[number].setLayout(layout)
+        # print(self.tabWidget.geometry())
+
 
     def change_workdir(self,Marinwindow):
-        text, ok = QInputDialog.getText(Marinwindow,'Input Directory','Please Enter working Directory:')
-        if ok:
-            print('Changing working directory to',text)
+        dirname = QFileDialog.getExistingDirectory(MainWindow,'open','./')
+        if dirname:
             try:
-                os.chdir(text)
+                os.chdir(dirname)
             except:
-                print('error:cannot change to this directory')
+                print('error:cannot change to this directory'+dirname)
 
-    def clear_tab(self,Marinwindow):
+    def clear_tab(self,index):
         try:
             for i in self.tablist:
-                self.tabWidget.removeTab(self.tablist[i],"")#how to close a tab
+                self.tabWidget.removeTab(index)
         except:
             print('Delete table fail')
+
+    def close_handler(self, index):
+        print ('close_handler called, index = '+str(index))
+        self.tabWidget.removeTab(index)
 
 if __name__ == "__main__":
     import sys
