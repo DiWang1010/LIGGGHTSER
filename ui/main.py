@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 # from PyQt5.QtWidgets import QInputDialog,QMainWindow, QPushButton, QApplication, QTextEdit,QFormLayout
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QObject, pyqtSignal, QEventLoop, QTimer, Qt
-from PyQt5.QtGui import QTextCursor
+from PyQt5.QtGui import QTextCursor, QIcon
 import LIGGGHTSER
 
 class Stream(QObject):
@@ -42,8 +42,10 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         lgs=LIGGGHTSER.read.Read('wd','0.1.0')
         ##########writle mainwindow
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("LIGGGHSTER")
         MainWindow.resize(800, 600)
+        MainWindow.setWindowTitle('LIGGGHSTER')
+        MainWindow.setWindowIcon(QIcon('LIGGGHTSER.ico'))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         ##########writle pushButton
@@ -156,6 +158,14 @@ class Ui_MainWindow(object):
     def close_handler(self, index):
         print ('close_handler called, index = '+str(index))
         self.tabWidget.removeTab(index)
+
+# class QtWidgets(object):
+    def closeEvent(self, event):
+        reply = QMessageBox.question(MainWindow, 'Yes', 'Do you want to exit', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()        
+        else:
+            event.ignore()
 
 if __name__ == "__main__":
     import sys
