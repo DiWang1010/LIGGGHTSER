@@ -29,6 +29,7 @@ class Ui_LIGGGHTSER_ui(object):
 		LIGGGHTSER_ui.resize(1024, 720)
 		LIGGGHTSER_ui.setMinimumSize(QtCore.QSize(1024, 720))
 		LIGGGHTSER_ui.setMouseTracking(False)
+		LIGGGHTSER_ui.setWindowIcon(QIcon('LIGGGHTSER.ico'))
 		self.centralwidget = QtWidgets.QWidget(LIGGGHTSER_ui)
 		self.centralwidget.setObjectName("centralwidget")
 		LIGGGHTSER_ui.setCentralWidget(self.centralwidget)
@@ -187,7 +188,6 @@ class mainwin(QtWidgets.QMainWindow):
 	#Shuts down application on close.
 	# Return stdout to defaults.
 		reply = QMessageBox.question(LIGGGHTSER_ui, 'WARNING', 'Do you want to exit', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-		reply.setIcon(QMessageBox,Warning)
 		if reply == QMessageBox.Yes:
 			sys.stdout = sys.__stdout__
 			super().closeEvent(event)

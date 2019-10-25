@@ -51,10 +51,7 @@ class Files(object):
 		self.tabWidget = QtWidgets.QTabWidget(self.verticalLayoutWidget_6)
 		self.tabWidget.setTabPosition(QTabWidget.West)
 		self.tabWidget.setObjectName("tabWidget")
-		# self.listView = QtWidgets.QListView(self.verticalLayoutWidget_6)
-		# self.listView.setObjectName("listView")
 		self.verticalLayout_6.addWidget(self.tabWidget)
-		# self.beginInsertRows(QModelIndex(),2,4)
 
 	def change_workdir(self,Mainwindow):
 		dirname = QFileDialog.getExistingDirectory(Mainwindow,'open','./')
@@ -66,32 +63,43 @@ class Files(object):
 		self.lineEdit.setPlaceholderText(str(os.getcwd()))
 
 	def read_file(self,Marinwindow,file_read):
-		# try:
-		filedict=file_read.read_file('./')
-		title=list()
-		for i in filedict:
-			title.append(str(i))
+		self.clear_tab(0)
+		try:
+			filedict=file_read.read_file('./')
+			title=list()
+			for i in filedict:
+				title.append(str(i))
 
-		self.tablist = [QtWidgets.QWidget() for i in range(len(filedict))]
-		for i in range(len(filedict)):
-			self.tablist[i].setObjectName(title[i])
-			self.tabWidget.addTab(self.tablist[i], title[i])
-
-			self.show_items(filedict,title[i],i)
-		self.tabWidget.show()
-		# except:
-		# 	print('cannot read directory'+os.getcwd())
-		# 	return
+			self.tablist = [QtWidgets.QWidget() for i in range(len(filedict))]
+			self.listView = [QtWidgets.QListView() for i in range(len(filedict))]
+			# self.qList=list()
+			for i in range(len(filedict)):
+				self.tablist[i].setObjectName(title[i])
+				self.tabWidget.addTab(self.tablist[i], title[i])
+				self.show_items(filedict,title[i],i)
+			self.tabWidget.show()
+		except:
+			print('cannot read directory'+os.getcwd())
+			return
 
 	def show_items(self,filedict,title,number):
 		layout=QVBoxLayout()
-		listView = QtWidgets.QListView()
-		listView.setObjectName("listView")
+		self.listView[number] = QtWidgets.QListView()
+		self.listView[number].setObjectName("listView"+str(number))
 		slm=QStringListModel()
 		self.qList=filedict[title]
 		slm.setStringList(self.qList)
-		listView.setModel(slm)
-		# listView.clicked.connect()
-		layout.addWidget(listView)
+		self.listView[number].setModel(slm)
+		self.listView[number].clicked.connect(self.read_data)
+		layout.addWidget(self.listView[number])
 		self.tablist[number].setLayout(layout)
 
+	def clear_tab(self,index):
+		try:
+			for i in self.tablist:
+				self.tabWidget.removeTab(index)
+		except:
+			print('Delete table fail')
+
+	def read_data(self,qModelIndex):
+		print(self.qList[qModelIndex.row()])
