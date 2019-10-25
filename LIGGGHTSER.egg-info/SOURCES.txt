@@ -1,5 +1,6 @@
 setup.py
 LIGGGHTSER/__init__.py
+LIGGGHTSER/files.py
 LIGGGHTSER/read.py
 LIGGGHTSER.egg-info/PKG-INFO
 LIGGGHTSER.egg-info/SOURCES.txt

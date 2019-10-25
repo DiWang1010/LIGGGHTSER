@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LIGGGHTSER_ui</class>
+ <widget class="QMainWindow" name="LIGGGHTSER_ui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>LIGGGHTSER</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>171</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLineEdit" name="lineEdit"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>0</y>
+      <width>471</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QTableWidget" name="tableWidget"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>0</y>
+      <width>311</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QGraphicsView" name="graphicsView"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>0</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>open</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>201</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="QListView" name="listView"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_6">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>240</y>
+      <width>311</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_6"/>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_7">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>450</y>
+      <width>441</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <item>
+      <widget class="QTextEdit" name="textEdit"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_8">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>450</y>
+      <width>561</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_8">
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Friction</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Tab 2</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menufile">
+    <property name="title">
+     <string>file</string>
+    </property>
+    <addaction name="actionnew"/>
+    <addaction name="actionopen"/>
+    <addaction name="actionsave"/>
+    <addaction name="separator"/>
+    <addaction name="actionprint"/>
+    <addaction name="actionexit"/>
+   </widget>
+   <widget class="QMenu" name="menuedit">
+    <property name="title">
+     <string>edit</string>
+    </property>
+    <addaction name="actioncopy"/>
+    <addaction name="actionpaste"/>
+   </widget>
+   <widget class="QMenu" name="menufunction">
+    <property name="title">
+     <string>function</string>
+    </property>
+    <addaction name="actionFriction"/>
+   </widget>
+   <widget class="QMenu" name="menuhelp">
+    <property name="title">
+     <string>help</string>
+    </property>
+   </widget>
+   <addaction name="menufile"/>
+   <addaction name="menuedit"/>
+   <addaction name="menufunction"/>
+   <addaction name="menuhelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionnew">
+   <property name="text">
+    <string>new</string>
+   </property>
+  </action>
+  <action name="actionopen">
+   <property name="text">
+    <string>open</string>
+   </property>
+  </action>
+  <action name="actionsave">
+   <property name="text">
+    <string>save</string>
+   </property>
+  </action>
+  <action name="actionexit">
+   <property name="text">
+    <string>exit</string>
+   </property>
+  </action>
+  <action name="actionprint">
+   <property name="text">
+    <string>print</string>
+   </property>
+  </action>
+  <action name="actioncopy">
+   <property name="text">
+    <string>copy</string>
+   </property>
+  </action>
+  <action name="actionpaste">
+   <property name="text">
+    <string>paste</string>
+   </property>
+  </action>
+  <action name="actionFriction">
+   <property name="text">
+    <string>Friction</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="first.qrc"/>
+ </resources>
+ <connections/>
+</ui>
