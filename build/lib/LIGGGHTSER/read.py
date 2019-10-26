@@ -4,9 +4,10 @@ import os
 import linecache
 
 class Read:
-	def __init__(self, name, version):
-		self.name=name
-		self.version=version
+	def __init__(self):
+		pass
+		# self.name=name
+		# self.version=version
 
 	def read_file(self, dirname):
 		filenames=list()

@@ -7,7 +7,7 @@ from PyQt5.QtGui import QTextCursor, QIcon
 from LIGGGHTSER import read
 
 
-class Files(object):
+class Files:
 	def __init__(self,lgser,Mainwindow):
 		file_read = read.Read()
 		self.filedict=dict()

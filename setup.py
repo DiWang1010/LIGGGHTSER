@@ -13,7 +13,7 @@ URL = ''
 EMAIL = 'wangdi819825@gmail.com'
 AUTHOR = 'D'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.0.1'
+VERSION = '0.0.3'
 KEYWORDS = 'LIGGGHTS'
 
 REQUIRED = [
