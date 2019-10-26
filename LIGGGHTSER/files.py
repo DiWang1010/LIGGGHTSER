@@ -87,8 +87,9 @@ class Files:
 		self.listView[number] = QtWidgets.QListView()
 		self.listView[number].setObjectName("listView"+str(number))
 		slm=QStringListModel()
-		self.qList=filedict[title]
-		slm.setStringList(self.qList)
+		slm.title=title
+		slm.qList=filedict[title]
+		slm.setStringList(slm.qList)
 		self.listView[number].setModel(slm)
 		self.listView[number].clicked.connect(self.read_data)
 		layout.addWidget(self.listView[number])
@@ -102,4 +103,9 @@ class Files:
 			print('Delete table fail')
 
 	def read_data(self,qModelIndex):
-		print(self.qList[qModelIndex.row()])
+		filename=(qModelIndex.data())
+		title=(qModelIndex.model().title)
+		if title == 'dump':
+			print(1)
+		else:
+			print(2)
