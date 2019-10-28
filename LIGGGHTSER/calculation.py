@@ -29,13 +29,14 @@ class Calculation:
 		# self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), "Tab 2")
 		# self.tabWidget.setCurrentIndex(0)
 		self.verticalLayoutWidget_3 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(220, 30, 100, 100))
+		self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(220, 30, 410, 410))
 		self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
 		self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
 		self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
 		self.verticalLayout_3.setObjectName("verticalLayout_3")
 		self.tabWidget_plot = QtWidgets.QTabWidget(self.verticalLayoutWidget_3)
 		self.tabWidget_plot.setObjectName("tabWidget_plot")
+		self.verticalLayout_3.addWidget(self.tabWidget_plot)
 
 		self.tab_plot_list=list()
 
@@ -111,6 +112,7 @@ class Calculation:
 		ax=figure.add_axes([0.1,0.1,0.8,0.8])
 		ax.plot(x,y)
 		layout.addWidget(canvas)
+		tab0.setLayout(layout)
 		# tab0.setCentralWidget(cavans)
 		# canvas.draw()
 
