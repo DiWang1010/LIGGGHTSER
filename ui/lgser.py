@@ -35,9 +35,10 @@ class Ui_LIGGGHTSER_ui(object):
 		LIGGGHTSER_ui.setCentralWidget(self.centralwidget)
 		#############file system#############
 		file_sys=LIGGGHTSER.files.Files(self,LIGGGHTSER_ui)
+		cal_sys=LIGGGHTSER.calculation.Calculation(self,LIGGGHTSER_ui,file_sys)
 		#############console system#############
 		self.verticalLayoutWidget_7 = QtWidgets.QWidget(self.centralwidget)
-		self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(0, 450, 441, 221))
+		self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(10, 450, 441, 221))
 		self.verticalLayoutWidget_7.setObjectName("verticalLayoutWidget_7")
 		self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_7)
 		self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
@@ -49,37 +50,30 @@ class Ui_LIGGGHTSER_ui(object):
 		self.process.setLineWrapColumnOrWidth(400)
 		self.verticalLayout_7.addWidget(self.process)
 		sys.stdout = Stream(newText=self.onUpdateText)
-		
-		# print(file_sys.filedict)
 
+		# self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.centralwidget)
+		# self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(700, 0, 311, 231))
+		# self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
+		# self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
+		# self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+		# self.verticalLayout_3.setObjectName("verticalLayout_3")
+  #       self.verticalLayout_3.addWidget(self.canvas)
+  #       self.verticalLayout_3.addWidget(cal_sys.)
+		# self.graphicsView = QtWidgets.QGraphicsView(self.verticalLayoutWidget_3)
+		# self.graphicsView.setObjectName("graphicsView")
+		# self.verticalLayout_3.addWidget(self.graphicsView)
 
-
-
-
-		self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
-		self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(220, 30, 471, 411))
-		self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
-		self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
-		self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_2.setObjectName("verticalLayout_2")
-		self.tableWidget = QtWidgets.QTableWidget(self.verticalLayoutWidget_2)
-		self.tableWidget.setObjectName("tableWidget")
-		self.tableWidget.setColumnCount(0)
-		self.tableWidget.setRowCount(0)
-		self.verticalLayout_2.addWidget(self.tableWidget)
-
-		self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.centralwidget)
-		self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(700, 0, 311, 231))
-		self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
-		self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
-		self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_3.setObjectName("verticalLayout_3")
-		self.graphicsView = QtWidgets.QGraphicsView(self.verticalLayoutWidget_3)
-		self.graphicsView.setObjectName("graphicsView")
-		self.verticalLayout_3.addWidget(self.graphicsView)
-
-		
-
+		# self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
+		# self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(220, 30, 471, 411))
+		# self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+		# self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+		# self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+		# self.verticalLayout_2.setObjectName("verticalLayout_2")
+		# self.tableWidget = QtWidgets.QTableWidget(self.verticalLayoutWidget_2)
+		# self.tableWidget.setObjectName("tableWidget")
+		# self.tableWidget.setColumnCount(0)
+		# self.tableWidget.setRowCount(0)
+		# self.verticalLayout_2.addWidget(self.tableWidget)
 
 
 		self.verticalLayoutWidget_6 = QtWidgets.QWidget(self.centralwidget)
@@ -91,21 +85,6 @@ class Ui_LIGGGHTSER_ui(object):
 
 		
 
-		self.verticalLayoutWidget_8 = QtWidgets.QWidget(self.centralwidget)
-		self.verticalLayoutWidget_8.setGeometry(QtCore.QRect(450, 450, 561, 221))
-		self.verticalLayoutWidget_8.setObjectName("verticalLayoutWidget_8")
-		self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_8)
-		self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_8.setObjectName("verticalLayout_8")
-		self.tabWidget = QtWidgets.QTabWidget(self.verticalLayoutWidget_8)
-		self.tabWidget.setObjectName("tabWidget")
-		self.tab = QtWidgets.QWidget()
-		self.tab.setObjectName("tab")
-		self.tabWidget.addTab(self.tab, "")
-		self.tab_2 = QtWidgets.QWidget()
-		self.tab_2.setObjectName("tab_2")
-		self.tabWidget.addTab(self.tab_2, "")
-		self.verticalLayout_8.addWidget(self.tabWidget)
 		
 		self.menubar = QtWidgets.QMenuBar(LIGGGHTSER_ui)
 		self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 22))
@@ -153,15 +132,13 @@ class Ui_LIGGGHTSER_ui(object):
 		self.menubar.addAction(self.menuhelp.menuAction())
 
 		self.retranslateUi(LIGGGHTSER_ui)
-		self.tabWidget.setCurrentIndex(0)
 		QtCore.QMetaObject.connectSlotsByName(LIGGGHTSER_ui)
 
 	def retranslateUi(self, LIGGGHTSER_ui):
 		_translate = QtCore.QCoreApplication.translate
 		LIGGGHTSER_ui.setWindowTitle(_translate("LIGGGHTSER_ui", "LIGGGHTSER"))
 		# self.pushButton.setText(_translate("LIGGGHTSER_ui", "open"))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("LIGGGHTSER_ui", "Friction"))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("LIGGGHTSER_ui", "Tab 2"))
+		
 		self.menufile.setTitle(_translate("LIGGGHTSER_ui", "file"))
 		self.menuedit.setTitle(_translate("LIGGGHTSER_ui", "edit"))
 		self.menufunction.setTitle(_translate("LIGGGHTSER_ui", "function"))

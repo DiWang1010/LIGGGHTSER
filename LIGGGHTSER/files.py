@@ -10,7 +10,7 @@ from LIGGGHTSER import read
 class Files:
 	def __init__(self,lgser,Mainwindow):
 		file_read = read.Read()
-		self.filedict=dict()
+		self.file_data = list()
 		self.verticalLayoutWidget = QtWidgets.QWidget(lgser.centralwidget)
 		self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 0, 620, 21))
 		self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
@@ -21,7 +21,7 @@ class Files:
 		self.lineEdit.setObjectName("lineEdit")
 		self.verticalLayout.addWidget(self.lineEdit)
 		self.lineEdit.setPlaceholderText(str(os.getcwd()))
-		#button1
+		#button_dir
 		self.verticalLayoutWidget_4 = QtWidgets.QWidget(lgser.centralwidget)
 		self.verticalLayoutWidget_4.setGeometry(QtCore.QRect(640, 0, 21, 21))
 		self.verticalLayoutWidget_4.setObjectName("verticalLayoutWidget_4")
@@ -31,7 +31,7 @@ class Files:
 		self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget_4)
 		self.pushButton.setObjectName("pushButton")
 		self.pushButton.clicked.connect(lambda:self.change_workdir(Mainwindow))
-		#button2
+		#button_readfile
 		self.verticalLayoutWidget_5 = QtWidgets.QWidget(lgser.centralwidget)
 		self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(670, 0, 21, 21))
 		self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
@@ -41,17 +41,41 @@ class Files:
 		self.pushButton2 = QtWidgets.QPushButton(self.verticalLayoutWidget_5)
 		self.pushButton2.setObjectName("pushButton2")
 		self.pushButton2.clicked.connect(lambda:self.read_file(Mainwindow,file_read))
+		#button3_readdata
+		self.verticalLayoutWidget_9 = QtWidgets.QWidget(lgser.centralwidget)
+		self.verticalLayoutWidget_9.setGeometry(QtCore.QRect(10, 30, 90, 30))
+		self.verticalLayoutWidget_9.setObjectName("verticalLayoutWidget_9")
+		self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_9)
+		self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+		self.verticalLayout_9.setObjectName("verticalLayout_9")
+		self.pushButton3 = QtWidgets.QPushButton(self.verticalLayoutWidget_9)
+		self.pushButton3.setObjectName("pushButton3")
+		self.pushButton3.clicked.connect(self.read_data)
+		#button4_clear
+		self.verticalLayoutWidget_11 = QtWidgets.QWidget(lgser.centralwidget)
+		self.verticalLayoutWidget_11.setGeometry(QtCore.QRect(110, 30, 90, 30))
+		self.verticalLayoutWidget_11.setObjectName("verticalLayoutWidget_11")
+		self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_11)
+		self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
+		self.verticalLayout_11.setObjectName("verticalLayout_11")
+		self.pushButton4 = QtWidgets.QPushButton(self.verticalLayoutWidget_11)
+		self.pushButton4.setObjectName("pushButton3")
+		self.pushButton4.clicked.connect(self.read_data)
 		#############filelist system#############
-		self.verticalLayoutWidget_6 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(10, 30, 190, 410))
-		self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
-		self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
-		self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_6.setObjectName("verticalLayout_6")
-		self.tabWidget = QtWidgets.QTabWidget(self.verticalLayoutWidget_6)
+		self.verticalLayoutWidget_10 = QtWidgets.QWidget(lgser.centralwidget)
+		self.verticalLayoutWidget_10.setGeometry(QtCore.QRect(10, 70, 190, 370))
+		self.verticalLayoutWidget_10.setObjectName("verticalLayoutWidget_10")
+		self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_10)
+		self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+		self.verticalLayout_10.setObjectName("verticalLayout_10")
+		self.tabWidget = QtWidgets.QTabWidget(self.verticalLayoutWidget_10)
 		self.tabWidget.setTabPosition(QTabWidget.West)
 		self.tabWidget.setObjectName("tabWidget")
-		self.verticalLayout_6.addWidget(self.tabWidget)
+		self.verticalLayout_10.addWidget(self.tabWidget)
+
+		self.verticalLayoutWidget.show()
+		self.verticalLayoutWidget_9.show()
+		self.verticalLayoutWidget_10.show()
 
 	def change_workdir(self,Mainwindow):
 		dirname = QFileDialog.getExistingDirectory(Mainwindow,'open','./')
@@ -91,7 +115,7 @@ class Files:
 		slm.qList=filedict[title]
 		slm.setStringList(slm.qList)
 		self.listView[number].setModel(slm)
-		self.listView[number].clicked.connect(self.read_data)
+		self.listView[number].clicked.connect(self.get_file)
 		layout.addWidget(self.listView[number])
 		self.tablist[number].setLayout(layout)
 
@@ -102,10 +126,25 @@ class Files:
 		except:
 			print('Delete table fail')
 
-	def read_data(self,qModelIndex):
-		filename=(qModelIndex.data())
-		title=(qModelIndex.model().title)
-		if title == 'dump':
-			print(1)
-		else:
-			print(2)
+	def get_file(self,qModelIndex):
+		self.selected_file = (qModelIndex.data())
+		self.selected_title = (qModelIndex.model().title)
+
+	def read_data(self):
+		file_data_temp = read.Read()
+		self.file_data.append(file_data_temp)
+		num = len(self.file_data)-1
+		self.file_data[num].type = self.selected_title
+		self.file_data[num].fname = self.selected_file
+		if self.selected_title=='dump':
+			self.file_data[num].data=self.file_data[num].read_dump(self.selected_file)
+		elif self.selected_title=='contact':
+			self.file_data[num].data=self.file_data[num].read_contact(self.selected_file)
+		elif self.selected_title=='ave':
+			self.file_data[num].data=self.file_data[num].read_ave(self.selected_file)
+		elif self.selected_title=='print':
+			self.file_data[num].data=self.file_data[num].read_print(self.selected_file)
+		elif self.selected_title=='log':
+			self.file_data[num].data=self.file_data[num].read_log_thermo(self.selected_file)
+
+		# print(self.file_data[num].data)

@@ -21,7 +21,7 @@ class Files:
 		self.lineEdit.setObjectName("lineEdit")
 		self.verticalLayout.addWidget(self.lineEdit)
 		self.lineEdit.setPlaceholderText(str(os.getcwd()))
-		#button1
+		#button_dir
 		self.verticalLayoutWidget_4 = QtWidgets.QWidget(lgser.centralwidget)
 		self.verticalLayoutWidget_4.setGeometry(QtCore.QRect(640, 0, 21, 21))
 		self.verticalLayoutWidget_4.setObjectName("verticalLayoutWidget_4")
@@ -31,7 +31,7 @@ class Files:
 		self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget_4)
 		self.pushButton.setObjectName("pushButton")
 		self.pushButton.clicked.connect(lambda:self.change_workdir(Mainwindow))
-		#button2
+		#button_readfile
 		self.verticalLayoutWidget_5 = QtWidgets.QWidget(lgser.centralwidget)
 		self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(670, 0, 21, 21))
 		self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
@@ -41,9 +41,19 @@ class Files:
 		self.pushButton2 = QtWidgets.QPushButton(self.verticalLayoutWidget_5)
 		self.pushButton2.setObjectName("pushButton2")
 		self.pushButton2.clicked.connect(lambda:self.read_file(Mainwindow,file_read))
+		#button3_readdata
+		self.verticalLayoutWidget_7 = QtWidgets.QWidget(lgser.centralwidget)
+		self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(10, 350, 190, 80))
+		self.verticalLayoutWidget_7.setObjectName("verticalLayoutWidget_7")
+		self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_7)
+		self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+		self.verticalLayout_7.setObjectName("verticalLayout_7")
+		self.pushButton3 = QtWidgets.QPushButton(self.verticalLayoutWidget_7)
+		self.pushButton3.setObjectName("pushButton3")
+		self.pushButton3.clicked.connect(lambda:self.read_data)
 		#############filelist system#############
 		self.verticalLayoutWidget_6 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(10, 30, 190, 410))
+		self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(10, 30, 190, 310))
 		self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
 		self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
 		self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -87,10 +97,11 @@ class Files:
 		self.listView[number] = QtWidgets.QListView()
 		self.listView[number].setObjectName("listView"+str(number))
 		slm=QStringListModel()
-		self.qList=filedict[title]
-		slm.setStringList(self.qList)
+		slm.title=title
+		slm.qList=filedict[title]
+		slm.setStringList(slm.qList)
 		self.listView[number].setModel(slm)
-		self.listView[number].clicked.connect(self.read_data)
+		self.listView[number].clicked.connect(self.get_file)
 		layout.addWidget(self.listView[number])
 		self.tablist[number].setLayout(layout)
 
@@ -101,5 +112,6 @@ class Files:
 		except:
 			print('Delete table fail')
 
-	def read_data(self,qModelIndex):
-		print(self.qList[qModelIndex.row()])
+	def get_file(self,qModelIndex):
+		self.selected_file = (qModelIndex.data())
+		self.selected_file = (qModelIndex.model().title)
