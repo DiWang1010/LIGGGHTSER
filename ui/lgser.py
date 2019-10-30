@@ -34,8 +34,9 @@ class Ui_LIGGGHTSER_ui(object):
 		self.centralwidget.setObjectName("centralwidget")
 		LIGGGHTSER_ui.setCentralWidget(self.centralwidget)
 		#############file system#############
-		file_sys=LIGGGHTSER.files.Files(self,LIGGGHTSER_ui)
-		cal_sys=LIGGGHTSER.calculation.Calculation(self,LIGGGHTSER_ui,file_sys)
+		self.file_sys=LIGGGHTSER.files.Files(self,LIGGGHTSER_ui)
+		self.cal_sys=LIGGGHTSER.calculation.Calculation(self,LIGGGHTSER_ui,self.file_sys)
+		self.variable_sys=LIGGGHTSER.variable.Variable(self,LIGGGHTSER_ui,self.file_sys)
 		#############console system#############
 		self.verticalLayoutWidget_7 = QtWidgets.QWidget(self.centralwidget)
 		self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(10, 450, 441, 221))
@@ -57,8 +58,8 @@ class Ui_LIGGGHTSER_ui(object):
 # 		self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
 # 		self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
 # 		self.verticalLayout_3.setObjectName("verticalLayout_3")
-#   #       self.verticalLayout_3.addWidget(self.canvas)
-#   #       self.verticalLayout_3.addWidget(cal_sys.)
+#   #	   self.verticalLayout_3.addWidget(self.canvas)
+#   #	   self.verticalLayout_3.addWidget(cal_sys.)
 # 		self.graphicsView = QtWidgets.QGraphicsView(self.verticalLayoutWidget_3)
 # 		self.graphicsView.setObjectName("graphicsView")
 # 		self.verticalLayout_3.addWidget(self.graphicsView)
@@ -74,17 +75,6 @@ class Ui_LIGGGHTSER_ui(object):
 		# self.tableWidget.setColumnCount(0)
 		# self.tableWidget.setRowCount(0)
 		# self.verticalLayout_2.addWidget(self.tableWidget)
-
-
-		self.verticalLayoutWidget_6 = QtWidgets.QWidget(self.centralwidget)
-		self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(700, 240, 311, 201))
-		self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
-		self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
-		self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_6.setObjectName("verticalLayout_6")
-
-		
-
 		
 		self.menubar = QtWidgets.QMenuBar(LIGGGHTSER_ui)
 		self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 22))

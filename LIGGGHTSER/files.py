@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -9,6 +10,7 @@ from LIGGGHTSER import read
 
 class Files:
 	def __init__(self,lgser,Mainwindow):
+		self.lg=lgser
 		file_read = read.Read()
 		self.file_data = list()
 		self.verticalLayoutWidget = QtWidgets.QWidget(lgser.centralwidget)
@@ -92,7 +94,7 @@ class Files:
 		# self.verticalLayoutWidget_10.show()
 
 	def change_workdir(self,Mainwindow):
-		dirname = QFileDialog.getExistingDirectory(Mainwindow,'open','./')
+		dirname = QFileDialog.getExistingDirectory(Mainwindow,'open','../test_data')
 		if dirname:
 			try:
 				os.chdir(dirname)
@@ -145,29 +147,30 @@ class Files:
 		self.selected_title = (qModelIndex.model().title)
 
 	def read_data(self):
-		try:
-			file_data_temp = read.Read()
-			self.file_data.append(file_data_temp)
-			num = len(self.file_data)-1
-			self.file_data[num].type = self.selected_title
-			self.file_data[num].fname = self.selected_file
-			if self.selected_title=='dump':
-				self.file_data[num].data=self.file_data[num].read_dump(self.selected_file)
-			elif self.selected_title=='contact':
-				self.file_data[num].data=self.file_data[num].read_contact(self.selected_file)
-			elif self.selected_title=='ave':
-				self.file_data[num].data=self.file_data[num].read_ave(self.selected_file)
-			elif self.selected_title=='print':
-				self.file_data[num].data=self.file_data[num].read_print(self.selected_file)
-			elif self.selected_title=='log':
-				self.file_data[num].data=self.file_data[num].read_log_thermo(self.selected_file)
-			print(len(self.file_data))
-		except:
-			print("No target to read!")
+		# try:
+		file_data_temp = read.Read()
+		self.file_data.append(file_data_temp)
+		num = len(self.file_data)-1
+		self.file_data[num].type = self.selected_title
+		self.file_data[num].fname = self.selected_file
+		if self.selected_title=='dump':
+			self.file_data[num].data=self.file_data[num].read_dump(self.selected_file)
+		elif self.selected_title=='contact':
+			self.file_data[num].data=self.file_data[num].read_contact(self.selected_file)
+		elif self.selected_title=='ave':
+			self.file_data[num].data=self.file_data[num].read_ave(self.selected_file)
+		elif self.selected_title=='print':
+			self.file_data[num].data=self.file_data[num].read_print(self.selected_file)
+		elif self.selected_title=='log':
+			self.file_data[num].data=self.file_data[num].read_log_thermo(self.selected_file)
+		print(str(len(self.file_data))+' files in temporary space')
+		self.lg.variable_sys.catch_data(self.file_data)
+		# except:
+		# 	print("No target to read!")
 	
 	def clear_data(self):
 		try:
 			for i in range(len(self.file_data)):
-				del self.file_data[i]
+				del self.file_data[len(self.file_data)-1-i]
 		except:
 			print("No target to clear")
