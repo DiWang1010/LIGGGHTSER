@@ -5,3 +5,4 @@ from LIGGGHTSER import variable
 from LIGGGHTSER import xyy
 from LIGGGHTSER import friction
 from LIGGGHTSER import stickslip
+from LIGGGHTSER import write
