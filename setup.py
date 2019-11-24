@@ -17,7 +17,7 @@ VERSION = '0.0.3'
 KEYWORDS = 'LIGGGHTS'
 
 REQUIRED = [
-numpy,matlibplot
+
 ]
 
 EXTRAS = {

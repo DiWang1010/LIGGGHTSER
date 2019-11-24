@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -9,8 +10,9 @@ from LIGGGHTSER import read
 
 class Files:
 	def __init__(self,lgser,Mainwindow):
+		self.lg=lgser
 		file_read = read.Read()
-		self.filedict=dict()
+		self.file_data = list()
 		self.verticalLayoutWidget = QtWidgets.QWidget(lgser.centralwidget)
 		self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 0, 620, 21))
 		self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
@@ -22,49 +24,77 @@ class Files:
 		self.verticalLayout.addWidget(self.lineEdit)
 		self.lineEdit.setPlaceholderText(str(os.getcwd()))
 		#button_dir
-		self.verticalLayoutWidget_4 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_4.setGeometry(QtCore.QRect(640, 0, 21, 21))
-		self.verticalLayoutWidget_4.setObjectName("verticalLayoutWidget_4")
-		self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_4)
-		self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_4.setObjectName("verticalLayout_4")
-		self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget_4)
+		# self.verticalLayoutWidget_4 = QtWidgets.QWidget(lgser.centralwidget)
+		# self.verticalLayoutWidget_4.setGeometry(QtCore.QRect(640, 0, 21, 21))
+		# self.verticalLayoutWidget_4.setObjectName("verticalLayoutWidget_4")
+		# self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_4)
+		# self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+		# self.verticalLayout_4.setObjectName("verticalLayout_4")
+		self.pushButton = QtWidgets.QPushButton(lgser.centralwidget)
+		self.pushButton.setGeometry(640, 0, 21, 21)
 		self.pushButton.setObjectName("pushButton")
+		self.pushButton.setIcon(QIcon("open.png")) 
+		self.pushButton.setFlat(True)
 		self.pushButton.clicked.connect(lambda:self.change_workdir(Mainwindow))
 		#button_readfile
-		self.verticalLayoutWidget_5 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(670, 0, 21, 21))
-		self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
-		self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_5)
-		self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_5.setObjectName("verticalLayout_5")
-		self.pushButton2 = QtWidgets.QPushButton(self.verticalLayoutWidget_5)
+		# self.verticalLayoutWidget_5 = QtWidgets.QWidget(lgser.centralwidget)
+		# self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(670, 0, 21, 21))
+		# self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
+		# self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_5)
+		# self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+		# self.verticalLayout_5.setObjectName("verticalLayout_5")
+		self.pushButton2 = QtWidgets.QPushButton(lgser.centralwidget)
+		self.pushButton2.setGeometry(670, 0, 21, 21)
 		self.pushButton2.setObjectName("pushButton2")
+		self.pushButton2.setIcon(QIcon("preview.png")) 
+		self.pushButton2.setFlat(True)
 		self.pushButton2.clicked.connect(lambda:self.read_file(Mainwindow,file_read))
 		#button3_readdata
-		self.verticalLayoutWidget_7 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_7.setGeometry(QtCore.QRect(10, 350, 190, 80))
-		self.verticalLayoutWidget_7.setObjectName("verticalLayoutWidget_7")
-		self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_7)
-		self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_7.setObjectName("verticalLayout_7")
-		self.pushButton3 = QtWidgets.QPushButton(self.verticalLayoutWidget_7)
+		# self.verticalLayoutWidget_9 = QtWidgets.QWidget(lgser.centralwidget)
+		# self.verticalLayoutWidget_9.setGeometry(QtCore.QRect(10, 30, 190, 130))
+		# self.verticalLayoutWidget_9.setMaximumSize(370, 150)
+		# self.verticalLayoutWidget_9.setObjectName("verticalLayoutWidget_9")
+		# self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_9)
+		# self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+		# self.verticalLayout_9.setObjectName("verticalLayout_9")
+		self.pushButton3 = QtWidgets.QPushButton(lgser.centralwidget)
+		self.pushButton3.setGeometry(10, 30, 90, 30)
 		self.pushButton3.setObjectName("pushButton3")
-		self.pushButton3.clicked.connect(lambda:self.read_data)
+		self.pushButton3.setIcon(QIcon("file.png")) 
+		self.pushButton3.setFlat(True)
+		self.pushButton3.clicked.connect(self.read_data)
+		self.pushButton3.show()
+		#button4_clear
+		# self.verticalLayoutWidget_11 = QtWidgets.QWidget(lgser.centralwidget)
+		# self.verticalLayoutWidget_11.setGeometry(QtCore.QRect(110, 30, 190, 130))
+		# self.verticalLayoutWidget_11.setObjectName("verticalLayoutWidget_11")
+		# self.verticalLayout_11 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_11)
+		# self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
+		# self.verticalLayout_11.setObjectName("verticalLayout_11")
+		self.pushButton4 = QtWidgets.QPushButton(lgser.centralwidget)
+		self.pushButton4.setGeometry(110, 30, 90, 30)
+		self.pushButton4.setObjectName("pushButton3")
+		self.pushButton4.setIcon(QIcon("clear.png")) 
+		self.pushButton4.setFlat(True)
+		self.pushButton4.clicked.connect(self.clear_data)
 		#############filelist system#############
-		self.verticalLayoutWidget_6 = QtWidgets.QWidget(lgser.centralwidget)
-		self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(10, 30, 190, 310))
-		self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
-		self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
-		self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-		self.verticalLayout_6.setObjectName("verticalLayout_6")
-		self.tabWidget = QtWidgets.QTabWidget(self.verticalLayoutWidget_6)
+		self.verticalLayoutWidget_10 = QtWidgets.QWidget(lgser.centralwidget)
+		self.verticalLayoutWidget_10.setGeometry(QtCore.QRect(10, 70, 190, 370))
+		self.verticalLayoutWidget_10.setObjectName("verticalLayoutWidget_10")
+		self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_10)
+		self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+		self.verticalLayout_10.setObjectName("verticalLayout_10")
+		self.tabWidget = QtWidgets.QTabWidget(self.verticalLayoutWidget_10)
 		self.tabWidget.setTabPosition(QTabWidget.West)
 		self.tabWidget.setObjectName("tabWidget")
-		self.verticalLayout_6.addWidget(self.tabWidget)
+		self.verticalLayout_10.addWidget(self.tabWidget)
+
+		# self.verticalLayoutWidget.show()
+		# self.verticalLayoutWidget_9.show()
+		# self.verticalLayoutWidget_10.show()
 
 	def change_workdir(self,Mainwindow):
-		dirname = QFileDialog.getExistingDirectory(Mainwindow,'open','./')
+		dirname = QFileDialog.getExistingDirectory(Mainwindow,'open','../test_data')
 		if dirname:
 			try:
 				os.chdir(dirname)
@@ -114,4 +144,33 @@ class Files:
 
 	def get_file(self,qModelIndex):
 		self.selected_file = (qModelIndex.data())
-		self.selected_file = (qModelIndex.model().title)
+		self.selected_title = (qModelIndex.model().title)
+
+	def read_data(self):
+		# try:
+		file_data_temp = read.Read()
+		self.file_data.append(file_data_temp)
+		num = len(self.file_data)-1
+		self.file_data[num].type = self.selected_title
+		self.file_data[num].fname = self.selected_file
+		if self.selected_title=='dump':
+			self.file_data[num].data=self.file_data[num].read_dump(self.selected_file)
+		elif self.selected_title=='contact':
+			self.file_data[num].data=self.file_data[num].read_contact(self.selected_file)
+		elif self.selected_title=='ave':
+			self.file_data[num].data=self.file_data[num].read_ave(self.selected_file)
+		elif self.selected_title=='print':
+			self.file_data[num].data=self.file_data[num].read_print(self.selected_file)
+		elif self.selected_title=='log':
+			self.file_data[num].data=self.file_data[num].read_log_thermo(self.selected_file)
+		print(str(len(self.file_data))+' files in temporary space')
+		self.lg.variable_sys.catch_data(self.file_data)
+		# except:
+		# 	print("No target to read!")
+	
+	def clear_data(self):
+		try:
+			for i in range(len(self.file_data)):
+				del self.file_data[len(self.file_data)-1-i]
+		except:
+			print("No target to clear")

@@ -1,7 +1,11 @@
 setup.py
 LIGGGHTSER/__init__.py
+LIGGGHTSER/calculation.py
 LIGGGHTSER/files.py
+LIGGGHTSER/friction.py
 LIGGGHTSER/read.py
+LIGGGHTSER/variable.py
+LIGGGHTSER/xyy.py
 LIGGGHTSER.egg-info/PKG-INFO
 LIGGGHTSER.egg-info/SOURCES.txt
 LIGGGHTSER.egg-info/dependency_links.txt
