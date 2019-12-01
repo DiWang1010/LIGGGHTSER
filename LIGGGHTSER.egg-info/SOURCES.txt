@@ -2,9 +2,12 @@ setup.py
 LIGGGHTSER/__init__.py
 LIGGGHTSER/calculation.py
 LIGGGHTSER/files.py
+LIGGGHTSER/fractal.py
 LIGGGHTSER/friction.py
 LIGGGHTSER/read.py
+LIGGGHTSER/stickslip.py
 LIGGGHTSER/variable.py
+LIGGGHTSER/write.py
 LIGGGHTSER/xyy.py
 LIGGGHTSER.egg-info/PKG-INFO
 LIGGGHTSER.egg-info/SOURCES.txt
