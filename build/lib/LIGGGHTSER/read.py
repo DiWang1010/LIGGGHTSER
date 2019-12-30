@@ -261,6 +261,8 @@ class Read:
 						if line.startswith('Loop time'):
 							read_data_flag=0
 							continue
+						if line.startswith('WARNING'):
+							continue
 						print('error: illegal thermo_data')
 				if line.startswith('#'):
 					continue
@@ -280,7 +282,6 @@ class Read:
 					read_data_flag=1
 					data='data'+str(index)
 					thermo[data]=list()
-				
 			return thermo
 
 	def data2dict(self,data,title):
