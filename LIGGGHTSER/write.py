@@ -25,3 +25,5 @@ class Write:
 				f.writelines(str(j)+' ')
 			f.writelines('\n')
 		f.close()
+	def write_vector(self,name,vector):
+		pass

@@ -267,7 +267,7 @@ class Read:
 				if line.startswith('#'):
 					continue
 				if line.startswith('thermo_style'):
-					index=index+1;
+					index=index+1
 					thermo_title='thermo_title'+str(index)
 					thermo[thermo_title]=list()
 					print('Detected thermo:',line)

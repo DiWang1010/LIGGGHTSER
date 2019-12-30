@@ -46,7 +46,10 @@ class Calculation:
 
 		friction = LIGGGHTSER.friction.Friction(self.tabWidget,self.tabWidget_plot,Files)
 		xyy = LIGGGHTSER.xyy.XYY(self.tabWidget,self.tabWidget_plot,Files)
+<<<<<<< HEAD
 		stickslip = LIGGGHTSER.stickslip.stickslip(self.tabWidget,self.tabWidget_plot,Files)
+=======
+>>>>>>> 7895ab39deb5305cd7d481fe0d6b299f432d00c5
 
 		# self.initial_xyy()
 		# self.initial_friction()
