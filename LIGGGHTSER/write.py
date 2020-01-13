@@ -8,7 +8,7 @@ class Write:
 		pass
 	def write_dump(self,dumpdata,filename):
 		f = open(filename,'w')
-		f.writelines('111ITEM: TIMESTEP\n')
+		f.writelines('ITEM: TIMESTEP\n')
 		f.writelines(str(dumpdata['TIMESTEP'])+'\n')
 		f.writelines('ITEM: NUMBER OF ATOMS\n')
 		f.writelines(str(dumpdata['NUMBER_OF_ATOM'])+'\n')
