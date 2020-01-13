@@ -48,6 +48,7 @@ class Read:
 					filedict['ave'].append(name)
 					continue
 				filedict['others'].append(name)
+				file.close()
 		print('Find dump file',len(filedict['dump']))
 		print('Find contact file',len(filedict['contact']))
 		print('Find log file',len(filedict['log']))
@@ -101,6 +102,7 @@ class Read:
 			for i in range(len(snap['DATA'])):
 						for items in range(len(m)):
 							snap[m[items]].append(snap['DATA'][i][items])
+		dump.close()
 		return snap
 
 	def read_contact(self, fname):
@@ -148,6 +150,7 @@ class Read:
 			for i in range(len(snap['DATA'])):
 						for items in range(len(m)):
 							snap[m[items]].append(snap['DATA'][i][items])
+		dump.close()
 		return snap
 	def read_ave(self,fname):
 		with open(fname,'r') as ave:
@@ -171,6 +174,7 @@ class Read:
 			for i in range(len(snap['DATA'])):
 				for items in range(len(m)):
 					snap[m[items]].append(snap['DATA'][i][items])
+			ave.close()
 		return snap
 	def read_print(self,fname,title):
 		with open(fname,'r') as printfile:
@@ -198,6 +202,7 @@ class Read:
 			for i in range(len(snap['DATA'])):
 				for items in range(len(m)):
 					snap[m[items]].append(snap['DATA'][i][items])
+			printfile.close()
 			return snap
 
 	def read_in_output(self,fname):
@@ -241,7 +246,7 @@ class Read:
 						filedict['thermo_title'].append(temparg[1:])
 					else:
 						print('error: illegal thermo_style')
-
+			in_output.close()
 			return filedict
 	def read_log_thermo(self,fname):
 		with open(fname,'r',encoding="gbk") as lglog:
@@ -282,6 +287,7 @@ class Read:
 					read_data_flag=1
 					data='data'+str(index)
 					thermo[data]=list()
+			lglog.close()
 			return thermo
 
 	def data2dict(self,data,title):
