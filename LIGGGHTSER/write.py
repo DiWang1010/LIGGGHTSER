@@ -20,6 +20,7 @@ class Write:
 		f.writelines('ITEM: ATOMS ')
 		for i in dumpdata['HEADER']:
 			f.writelines(i+' ')
+		f.writelines('\n')
 		for i in dumpdata['DATA']:
 			for j in i:
 				f.writelines(str(j)+' ')
