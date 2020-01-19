@@ -24,37 +24,40 @@ class Read:
 		filedict['ave'] = list()
 		filedict['others'] = list()
 		for name in filenames:
-			with open(name,'r') as file:
-				try:
-					line = file.readline()
-				except:
-					filedict['others'].append(name)
-					file.close()
-					continue
-				if line.startswith('ITEM'):
-					text = linecache.getline(name,3)
-					if text.startswith('ITEM: NUMBER OF ATOM'):
-						filedict['dump'].append(name)
-						file.close()
-						continue
-					if text.startswith('ITEM: NUMBER OF ENTRIES'):
-						filedict['contact'].append(name)
-						file.close()
-						continue
-				if line.startswith('LIGGGHTS'):
-					filedict['log'].append(name)
-					file.close()
-					continue
-				if line.startswith('# Fix print output for fix'):
-					filedict['print'].append(name)
-					file.close()
-					continue
-				if line.startswith('# Time-averaged data for fix'):
-					filedict['ave'].append(name)
-					file.close()
-					continue
+			try:
+				filefid=open(name)
+			except:
+				print(['read file',name,'error'])
+			try:
+				line = filefid.readline()
+			except:
 				filedict['others'].append(name)
-				file.close()
+				filefid.close()
+				continue
+			if line.startswith('ITEM'):
+				text = linecache.getline(name,3)
+				if text.startswith('ITEM: NUMBER OF ATOM'):
+					filedict['dump'].append(name)
+					filefid.close()
+					continue
+				if text.startswith('ITEM: NUMBER OF ENTRIES'):
+					filedict['contact'].append(name)
+					filefid.close()
+					continue
+			if line.startswith('LIGGGHTS'):
+				filedict['log'].append(name)
+				filefid.close()
+				continue
+			if line.startswith('# Fix print output for fix'):
+				filedict['print'].append(name)
+				filefid.close()
+				continue
+			if line.startswith('# Time-averaged data for fix'):
+				filedict['ave'].append(name)
+				filefid.close()
+				continue
+			filedict['others'].append(name)
+			filefid.close()
 		print('Find dump file',len(filedict['dump']))
 		print('Find contact file',len(filedict['contact']))
 		print('Find log file',len(filedict['log']))
