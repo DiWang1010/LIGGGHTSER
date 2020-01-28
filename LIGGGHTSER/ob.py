@@ -58,10 +58,9 @@ class ob:
 		return server
 
 	def monitor(self,jobid=None,time_gap=60,email=None,file=None):
-		squeue_data=self.squeue()
 		check_list=[0 for i in range(len(jobid))]
 		while 1:
-			pass
+			squeue_data=self.squeue()
 			for i in range(len(jobid)):
 				for j in range(len(squeue_data)):
 					# print(jobid[i])
