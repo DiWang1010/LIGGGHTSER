@@ -53,14 +53,34 @@ class ob:
 			msg_text= MIMEText('This is a test mail from LIGGGHTSER. Mail set successfully','html','utf-8')
 			msg.attach(msg_text)
 			server.sendmail(user,[target],msg.as_string())
-		self.user=user
-		self.target=target
-		return server
+		email=[user,psd,smpt_server,port,target]
+		# self.user=user
+		# self.target=target
+		# self.psd=psd
+		# self.smpt_server=smpt_server
+		# self.port=port
+		return email
+
+	def send_email(self,email,strings):
+		server = smtplib.SMTP(email[2],email[3])
+		server.ehlo()
+		# server.set_debuglevel(1)
+		server.starttls()
+		server.login(email[0],email[1])
+
+		msg = MIMEMultipart()
+		msg['From'] = 'LIGGGHTSER user'+str(email[0])
+		# msg['To'] =  COMMASPACE.join(target)
+		msg['To'] =  email[4]
+		msg['Subject'] ='Job info mail'
+		msg_text= MIMEText(strings,'html','utf-8')
+		msg.attach(msg_text)
+		server.sendmail(email[0],[email[4]],msg.as_string())
 
 	def monitor(self,jobid=None,time_gap=60,email=None,file=None):
-		check_list=[0 for i in range(len(jobid))]
 		while 1:
 			squeue_data=self.squeue()
+			check_list=[0 for i in range(len(jobid))]
 			for i in range(len(jobid)):
 				for j in range(len(squeue_data)):
 					# print(jobid[i])
@@ -72,28 +92,17 @@ class ob:
 				if(check_list[i]):
 					check_list[i]=0
 				elif(email):
-					msg = MIMEMultipart()
-					msg['From'] = 'LIGGGHTSER user'+str(self.user)
-					# msg['To'] =  COMMASPACE.join(target)
-					msg['To'] =  self.target
-					msg['Subject'] ='Job info mail'
-					msg_text= MIMEText('Job '+str(jobid[i])+' down.','html','utf-8')
-					msg.attach(msg_text)
+					strings='Job '+str(jobid[i])+' down.'
+					self.send_email(email,strings)
 					if(file):
 						pass
-					email.sendmail(self.user,[self.target],msg.as_string())
 					del jobid[i]
 				else:
 					print('Job'+str(jobid[i])+'down.')
 					del jobid[i]
 			# print(jobid)
 			if(len(jobid)==0):
-				msg = MIMEMultipart()
-				msg['From'] = 'LIGGGHTSER user'+str(self.user)
-				# msg['To'] =  COMMASPACE.join(target)
-				msg['To'] =  self.target
-				msg['Subject'] ='Job info mail'
-				msg_text= MIMEText('Jobs all down.','html','utf-8')
-				msg.attach(msg_text)
+				strings='Jobs all down.Monitor terminated'
+				self.send_email(email,strings)
 				break
 			time.sleep(time_gap)
