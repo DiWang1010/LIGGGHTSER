@@ -202,6 +202,8 @@ class Read:
 			line = printfile.readline()
 			snap = dict()
 			snap['DATA'] = list()
+			for items in range(len(m)):
+				snap[m[items]] = list()
 			for line in printfile:
 				try:
 					snap['DATA'].append([float(i) for i in line.split()])
