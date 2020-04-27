@@ -294,7 +294,7 @@ class Read:
 						thermo[thermo_title].append(temparg[1:])
 					else:
 						print('error: illegal thermo_style')
-				if line.startswith(str.title(thermo[thermo_title][0][0])):
+				if line.startswith(str.title(thermo[thermo_title][0][0]) or  line.startswith('    '+str.title(thermo[thermo_title][0][0])):
 					read_data_flag=1
 					data='data'+str(index)
 					thermo[data]=list()
