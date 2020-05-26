@@ -28,3 +28,12 @@ class Write:
 		f.close()
 	def write_vector(self,name,vector):
 		pass
+	def write_input_file(self,dumpdata,filename,atom_type):
+		if(atom_type=='granular'):
+			pass
+		elif(atom_type=='superquadric'):
+			pass
+		else:
+			print('unsupport atom type, please choose granular or superquadric')
+	def write_creat_atom(self,x,y,z,):
+		pass
